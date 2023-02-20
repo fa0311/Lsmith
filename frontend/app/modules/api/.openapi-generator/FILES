@@ -7,6 +7,8 @@ models/BaseResponseModel.ts
 models/BuildEngineError.ts
 models/BuildEngineOptions.ts
 models/BuildEngineProgress.ts
+models/ConvertDiffusersOptions.ts
+models/DiffusersConvertResponseModel.ts
 models/FileListResponseModel.ts
 models/GenerateImageResponseModel.ts
 models/HTTPValidationError.ts

@@ -17,6 +17,8 @@ import * as runtime from '../runtime';
 import type {
   BaseResponseModel,
   BuildEngineOptions,
+  ConvertDiffusersOptions,
+  DiffusersConvertResponseModel,
   FileListResponseModel,
   GenerateImageResponseModel,
   HTTPValidationError,
@@ -33,6 +35,10 @@ import {
     BaseResponseModelToJSON,
     BuildEngineOptionsFromJSON,
     BuildEngineOptionsToJSON,
+    ConvertDiffusersOptionsFromJSON,
+    ConvertDiffusersOptionsToJSON,
+    DiffusersConvertResponseModelFromJSON,
+    DiffusersConvertResponseModelToJSON,
     FileListResponseModelFromJSON,
     FileListResponseModelToJSON,
     GenerateImageResponseModelFromJSON,
@@ -57,6 +63,10 @@ import {
 
 export interface BuildEngineRequest {
     buildEngineOptions: BuildEngineOptions;
+}
+
+export interface ConvertEngineRequest {
+    convertDiffusersOptions: ConvertDiffusersOptions;
 }
 
 export interface GenerateImageRequest {
@@ -120,6 +130,39 @@ export class MainApi extends runtime.BaseAPI {
      */
     async buildEngine(requestParameters: BuildEngineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ResponseBuildEngine> {
         const response = await this.buildEngineRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Convert Engine
+     */
+    async convertEngineRaw(requestParameters: ConvertEngineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DiffusersConvertResponseModel>> {
+        if (requestParameters.convertDiffusersOptions === null || requestParameters.convertDiffusersOptions === undefined) {
+            throw new runtime.RequiredError('convertDiffusersOptions','Required parameter requestParameters.convertDiffusersOptions was null or undefined when calling convertEngine.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/diffusers/convert`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ConvertDiffusersOptionsToJSON(requestParameters.convertDiffusersOptions),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DiffusersConvertResponseModelFromJSON(jsonValue));
+    }
+
+    /**
+     * Convert Engine
+     */
+    async convertEngine(requestParameters: ConvertEngineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DiffusersConvertResponseModel> {
+        const response = await this.convertEngineRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

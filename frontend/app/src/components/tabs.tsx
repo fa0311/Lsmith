@@ -1,5 +1,5 @@
 import { Box, Center, createStyles, Flex, MediaQuery, Navbar, Space, Stack } from '@mantine/core'
-import { IconEngine, IconPhotoEdit, IconPhotoSearch } from '@tabler/icons-react'
+import { IconEngine, IconPhotoEdit, IconPhotoSearch, IconTransform } from '@tabler/icons-react'
 import React, { useState } from 'react'
 
 import GithubButton from './githubButton'
@@ -7,6 +7,7 @@ import ThemeToggle from './themeToggle'
 import type { Tab } from '../types/tab'
 
 import { plugins } from '~/plugin/pluginLoader'
+import Converter from '~/tabs/converter'
 import Engine from '~/tabs/engine'
 import Generator from '~/tabs/generator'
 import ImagesBrowser from '~/tabs/imagesBrowser'
@@ -39,10 +40,10 @@ const useStyles = createStyles((theme, _params, getRef) => {
     linkActive: {
       '&, &:hover': {
         backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
-          .background,
-        color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
+          .background as string,
+        color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color as string,
         [`& .${icon}`]: {
-          color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
+          color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color as string,
         },
       },
     },
@@ -61,6 +62,12 @@ const TABS: Tab[] = [
     label: 'Engine',
     icon: IconEngine,
     component: Engine,
+  },
+  {
+    id: 'convert',
+    label: 'Convert',
+    icon: IconTransform,
+    component: Converter,
   },
   {
     id: 'imagesBrowser',

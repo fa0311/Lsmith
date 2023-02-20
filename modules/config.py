@@ -15,6 +15,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("--allow-hosts", type=str, default="")
 parser.add_argument("--model-dir", type=str, default="models")
+parser.add_argument("--diffusers-dir", type=str, default="diffusers")
 parser.add_argument("--config-file", type=str, default="config.json")
 parser.add_argument("--hf-token", type=str)
 

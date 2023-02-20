@@ -22,3 +22,10 @@ class BuildEngineOptions(BaseModel):
     force_onnx_export = False
     force_onnx_optimize = False
     onnx_minimal_optimization = False
+
+
+class ConvertDiffusersOptions(BaseModel):
+    model_id: str
+    filename: Optional[str] = None
+    reference_model:Optional[str] = None
+    hf_token: Optional[str] = None

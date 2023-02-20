@@ -7,6 +7,7 @@ dist
 /config.json
 /outputs
 /models
+/diffusers
 /docker-data
 /tmp
 

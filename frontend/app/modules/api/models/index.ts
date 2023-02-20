@@ -4,6 +4,8 @@ export * from './BaseResponseModel';
 export * from './BuildEngineError';
 export * from './BuildEngineOptions';
 export * from './BuildEngineProgress';
+export * from './ConvertDiffusersOptions';
+export * from './DiffusersConvertResponseModel';
 export * from './FileListResponseModel';
 export * from './GenerateImageResponseModel';
 export * from './HTTPValidationError';
