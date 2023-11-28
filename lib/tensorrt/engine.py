@@ -75,6 +75,10 @@ class UNet2DConditionModelEngine:
     def forward(self, *args, **kwargs):
         pass
 
+    @property
+    def config(self) -> None:
+        return None
+
 
 class AutoencoderKLEngine:
     def __init__(self, encoder_path: str, decoder_path: str, stream: cuda.Stream):

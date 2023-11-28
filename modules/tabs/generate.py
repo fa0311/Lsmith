@@ -147,10 +147,11 @@ class Generate(Tab):
             yield results, f"Finished in {end - start:0.4f} seconds", gr.Button.update(
                 value="Generate", variant="primary", interactive=True
             )
-        except:
+        except Exception as e:
             yield [], "Error", gr.Button.update(
                 value="Generate", variant="primary", interactive=True
             )
+            raise e from e
 
     def ui(self, outlet):
         with gr.Column():

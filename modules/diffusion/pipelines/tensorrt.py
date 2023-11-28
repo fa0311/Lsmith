@@ -188,24 +188,17 @@ class TensorRTStableDiffusionPipeline(DiffusersPipeline):
 
     def _encode_prompt(
         self,
-        prompt,
-        num_images_per_prompt,
-        do_classifier_free_guidance,
-        negative_prompt=None,
-        prompt_embeds: Optional[torch.FloatTensor] = None,
-        negative_prompt_embeds: Optional[torch.FloatTensor] = None,
+        prompt: str,
+        negative_prompt: str,
+        num_images_per_prompt: int,
+        do_classifier_free_guidance: bool,
     ):
-        return (
-            super()
-            ._encode_prompt(
-                prompt,
-                num_images_per_prompt,
-                do_classifier_free_guidance,
-                negative_prompt,
-                prompt_embeds,
-                negative_prompt_embeds,
-            )
-            .to(dtype=torch.float16)
+        return super()._encode_prompt(
+            prompt,
+            negative_prompt,
+            num_images_per_prompt,
+            do_classifier_free_guidance,
+            float16=True,
         )
 
     def encode_image(self, init_image):

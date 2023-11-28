@@ -117,11 +117,13 @@ class LongPromptWeightingPipeline:
         pipe,
         text_encoder,
         tokenizer,
+        float16=False,
     ):
         self.pipe = pipe
         self.device = pipe.device
         self.text_encoder = text_encoder
         self.tokenizer = tokenizer
+        self.float16 = float16
 
     def get_unweighted_text_embeddings(
         self,
@@ -162,6 +164,9 @@ class LongPromptWeightingPipeline:
             text_embeddings = torch.concat(text_embeddings, axis=1)
         else:
             text_embeddings = self.text_encoder(text_input)[0]
+        if self.float16:
+            text_embeddings = text_embeddings.to(torch.float16)
+
         return text_embeddings
 
     def get_prompts_with_weights(self, prompt: List[str], max_length: int):

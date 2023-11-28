@@ -282,6 +282,7 @@ class DiffusersPipeline(DiffusersPipelineModel):
         negative_prompt: str,
         num_images_per_prompt: int,
         do_classifier_free_guidance: bool,
+        float16: bool = False,
     ):
         if self.text_encoder_2 is not None and self.tokenizer_2 is not None:
             if prompt is not None and isinstance(prompt, str):
@@ -429,6 +430,7 @@ class DiffusersPipeline(DiffusersPipelineModel):
                 self,
                 self.text_encoder,
                 self.tokenizer,
+                float16,
             )
             prompt_embeds, negative_prompt_embeds = lpw(
                 prompt,
@@ -698,9 +700,9 @@ class DiffusersPipeline(DiffusersPipelineModel):
             negative_pooled_prompt_embeds,
         ) = self._encode_prompt(
             prompt=prompt,
+            negative_prompt=negative_prompt,
             num_images_per_prompt=num_images_per_prompt,
             do_classifier_free_guidance=do_classifier_free_guidance,
-            negative_prompt=negative_prompt,
         )
 
         if (
@@ -734,7 +736,7 @@ class DiffusersPipeline(DiffusersPipelineModel):
         # 5. Prepare latent variables
         latents = self.prepare_latents(
             vae_scale_factor=vae_scale_factor,
-            unet_in_channels=self.unet.config.in_channels,
+            unet_in_channels=self.unet.config.in_channels if self.unet.config else 4,
             image=opts.image,
             timestep=latent_timestep,
             batch_size=opts.batch_size,
